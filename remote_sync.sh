@@ -120,13 +120,12 @@ function remove_deleted_dirs_from_list() {
   local deleted_dirs=$2
   local d
 
-  if [[ -z "$deleted_dirs" ]]; then
-    return
+  if [[ "$deleted_dirs" ]]; then
+    while read -r d; do
+      list=$(grep -Pv "^\Q$d\E/" <<<"$list")
+    done <<<"$deleted_dirs"
   fi
 
-  while read -r d; do
-    list=$(grep -Pv "^\Q$d\E/" <<<"$list")
-  done <<<"$deleted_dirs"
   echo "$list"
 }
 
